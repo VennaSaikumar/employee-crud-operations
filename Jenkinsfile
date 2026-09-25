@@ -3,20 +3,16 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Build & Test') {
             steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+                sh './mvnw clean package'
             }
         }
 
         stage('Docker Build') {
             steps {
+                sh 'ls -la'
+                sh 'ls -la target'
                 sh 'docker build -t employee-crud-operations:latest .'
             }
         }
@@ -33,7 +29,7 @@ pipeline {
                       -p 8080:8080 \
                       -e DB_URL="jdbc:mysql://host.docker.internal:3306/realdb" \
                       -e DB_USERNAME="root" \
-                      -e DB_PASSWORD="C@r3eR25" \
+                      -e DB_PASSWORD="YOUR_PASSWORD" \
                       employee-crud-operations:latest
 
                     echo "Waiting for application to start..."

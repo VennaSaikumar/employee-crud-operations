@@ -29,7 +29,8 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	    employees.setEmail(request.getEmail());
 	    employees.setSalary(request.getSalary());
 	    employees.setDepartment(request.getDepartment());
-		return toResponse(employees);
+	    Employees response = employeeRepository.save(employees);
+		return toResponse(response);
 	}
 
 	@Override

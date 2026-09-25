@@ -29,7 +29,7 @@ pipeline {
                       -p 8080:8080 \
                       -e DB_URL="jdbc:mysql://host.docker.internal:3306/realdb" \
                       -e DB_USERNAME="root" \
-                      -e DB_PASSWORD="YOUR_PASSWORD" \
+                      -e DB_PASSWORD="C@r3eR25" \
                       employee-crud-operations:latest
 
                     echo "Waiting for application to start..."

@@ -26,10 +26,10 @@ pipeline {
                     docker run -d \
                       --name employee-crud-operations \
                       --add-host=host.docker.internal:host-gateway \
-                      -p 8081:8080 \
-                      -e DB_URL="jdbc:mysql://host.docker.internal:3306/realdb" \
-                      -e DB_USERNAME="root" \
-                      -e DB_PASSWORD="C@r3eR25" \
+                      -p 8081:9090 \
+                      -e SPRING_DATASOURCE_URL="jdbc:mysql://host.docker.internal:3306/realdb" \
+                      -e SPRING_DATASOURCE_USERNAME="root" \
+                      -e SPRING_DATASOURCE_PASSWORD="C@r3eR25" \
                       employee-crud-operations:latest
 
                     echo "Waiting for application to start..."
@@ -45,7 +45,17 @@ pipeline {
                         exit 1
                     fi
 
-                    echo "Container is running successfully!"
+                    echo "Testing application..."
+
+                    if ! curl -f http://localhost:8081/api/v1/employees/all; then
+                        echo "Application API check failed!"
+                        echo "Container logs:"
+                        docker logs employee-crud-operations
+                        exit 1
+                    fi
+
+                    echo ""
+                    echo "Application is running successfully!"
                 '''
             }
         }

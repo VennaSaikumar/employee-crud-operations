@@ -67,7 +67,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 			Employees respons = employeeRepository.save(employees);
 
-			return  toResponse(employees);
+			return  toResponse(respons);
 			
 		}
 		 throw new EmployeeNotFoundException(

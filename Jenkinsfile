@@ -3,40 +3,28 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
-                dir('employee-crud-operations') {
-                    sh 'mvn clean package -DskipTests'
-                }
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Test') {
             steps {
-                dir('employee-crud-operations') {
-                    sh 'mvn test'
-                }
+                sh 'mvn test'
             }
         }
 
         stage('Docker Build') {
             steps {
-                dir('employee-crud-operations')  {
-                    sh 'docker build -t cilm-service:latest .'
-                }
+                sh 'docker build -t employee-crud-operations:latest .'
             }
         }
 
         stage('Deploy') {
             steps {
                 sh '''
-                    docker stop employee-crud-operations  || true
+                    docker stop employee-crud-operations || true
                     docker rm employee-crud-operations || true
 
                     docker run -d \
